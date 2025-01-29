@@ -6,7 +6,7 @@
 /*   By: hganet <hganet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:33:39 by hganet            #+#    #+#             */
-/*   Updated: 2025/01/24 15:45:53 by hganet           ###   ########.fr       */
+/*   Updated: 2025/01/24 18:02:34 by hganet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	main(int ac, char **av)
 		{
 			if (is_alpha(av[1][i]))
 				if (av[1][i] >= 65 && av[1][i] <= 90)
-					write(1, &"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[get_alpha_index(av[1][i] + 1) % 25], 1);
+					write(1, &"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[get_alpha_index(av[1][i] + 1) % 26], 1);
 				else
-					write(1, &"abcdefghijklmnopqrstuvwxyz"[get_alpha_index(av[1][i] + 1) % 25], 1);
+					write(1, &"abcdefghijklmnopqrstuvwxyz"[get_alpha_index(av[1][i] + 1) % 26], 1);
 			else
 				write(1, &av[1][i], 1);
 			i++;
