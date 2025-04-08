@@ -29,7 +29,7 @@ void	rev_wstr(char * str)
 		j = i; // j is now the end of the last word
 		while(j >= 0 && !is_space(str[j]))
 			j--; // goes to the begining of the string of a space
-		if (first_word == 0)
+		if (!first_word)
 			ft_putchar(' ');
 		write(1, str + j + 1, i - j);
 		first_word = 0; // stays 0 after we've printed a word

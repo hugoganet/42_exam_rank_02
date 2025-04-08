@@ -17,7 +17,7 @@ static char *get_and_malloc_word(char *str)
 	len = 0;
 	while(str[len] && !(str[len] == 32 || (str[len] >= 9 && str[len] <= 13)))
 		len++;
-	word = malloc(len + 1 * sizeof(char));
+	word = malloc((len + 1) * sizeof(char));
 	if (!word)
 		return (NULL);
 	word[len] = '\0'; // NULL terminate the word

@@ -37,7 +37,7 @@ void	rostring(char *str)
 	{
 		if (str[i] && !is_space(str[i]) && is_space(str[i - 1]))
 		{
-			while (str[i] && !is_space(str[i]))
+			while (str[i] && (i == 0 || !is_space(str[i])))
 			{
 				ft_putchar(str[i]);
 				i++;

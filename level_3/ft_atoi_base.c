@@ -1,87 +1,71 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoi_base.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hganet <hganet@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 17:17:49 by hganet            #+#    #+#             */
-/*   Updated: 2025/02/03 11:35:25 by hganet           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <stddef.h>
-#include <stdio.h>
-
-int	is_space(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-int	is_valid(char c, int base)
-{
-	char *digits = "0123456789abcdef";
-	char *digits_upper = "0123456789ABCDEF";
-	int	i;
-	
-	i = 0;
-	while (i < base)
-	{
-		if (c == digits[i] || c == digits_upper[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-/**
- * @brief  By subtracting the ASCII value of the base character ('0', 'a', or 'A'),
- * 		   we get the position of the character in the sequence. For letters,
- * 		   we add 10 because 'a' or 'A' represents 10 in hexadecimal.
+/*
+ * ft_atoi_base:
+ * This function converts the string 'str', which represents a number in base 'str_base'
+ * (where str_base is between 2 and 16), into an integer in base 10.
+ *
+ * The allowed characters in the string are:
+ * - For digits: '0' to '9'
+ * - For letters: 'a' to 'f' or 'A' to 'F' (only used when the base is greater than 10)
+ *
+ * The function also handles an optional leading minus sign ('-') to denote negative numbers.
+ * A plus sign ('+') is allowed as the first character as well.
+ *
+ * If a character is encountered that is not valid for the given base, the conversion stops.
+ *
+ * Allowed functions: None.
  */
-int	value_of(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (c - 48);
-	else if (c >= 'a' && c <= 'f')
-		return (c - 97 + 10);
-	else if (c >= 'A' && c <= 'F')
-		return (c - 65 + 10);
-	return (0);
-}
 
 int ft_atoi_base(const char *str, int str_base)
 {
-	int res;
-	int sign;
-	int	i;
-	
+	int i;		// Index to traverse the string
+	int sign;	// To handle negative numbers
+	int result; // The resulting converted number
+	int digit;	// To store the value of the current digit
+
+	// Check if the provided base is valid (base must be between 2 and 16).
 	if (str_base < 2 || str_base > 16)
 		return (0);
-	res = 0;
-	sign = 1;
-	i = 0;
-	while (is_space(str[i]))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while (str[i] && is_valid(str[i], str_base))
-	{
-		res = res * str_base + value_of(str[i]);
-		i++;
-	}
-	return (res * sign);
-}
 
-int	main(int ac, char **av)
-{
-	if (ac == 3)
+	i = 0;
+	sign = 1;
+	result = 0;
+
+	// Handle the sign: if the first character is '-' then the number is negative.
+	if (str[i] == '-')
 	{
-		printf("%d", ft_atoi_base(av[1], ft_atoi_base(av[2], 10)));
+		sign = -1;
+		i++;
 	}
-	return (0);
+	// Optionally, if the first character is '+', just skip it.
+	else if (str[i] == '+')
+	{
+		i++;
+	}
+
+	// Process each character of the string until the end.
+	while (str[i])
+	{
+		// Check if the current character is a digit (0-9)
+		if (str[i] >= '0' && str[i] <= '9')
+			digit = str[i] - '0';
+		// Check for lowercase letters (a-f) for bases above 10.
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			digit = str[i] - 'a' + 10;
+		// Check for uppercase letters (A-F) for bases above 10.
+		else if (str[i] >= 'A' && str[i] <= 'F')
+			digit = str[i] - 'A' + 10;
+		else
+			break; // If the character is not recognized, exit the loop.
+
+		// If the digit is not valid for the given base, stop processing.
+		if (digit >= str_base)
+			break;
+
+		// Multiply the current result by the base and add the current digit.
+		result = result * str_base + digit;
+		i++;
+	}
+
+	// Return the computed result multiplied by the sign.
+	return (result * sign);
 }
